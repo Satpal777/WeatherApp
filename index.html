@@ -74,7 +74,6 @@
         app.controller('customersCtrl', function ($scope, $http) {
             $scope.recent = [];
             $scope.update = () => {
-                console.log(secrets);
                 var url = `http://api.openweathermap.org/data/2.5/weather?q=${$scope.name}&units=metric&appid=${API}`
                  $http.get(url).then(function (response) {
                     $scope.country = ", " + response.data.sys.country;
