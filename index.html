@@ -30,23 +30,40 @@
             border: 1px solid rgb(148, 252, 252);
             border-radius: 7px;
         }
-    </style>
 
+        .w-add{
+            width: 100%;
+        }
+
+        @media (min-width: 576px) {
+            .w-add{
+                width: 50%;
+            }
+        }
+        @media (min-width: 1199.98px) { 
+            .w-add{
+                width: 25%;
+            }
+        }
+
+    </style>
+<script src="/ignore.js"></script>
 </head>
 
 <body ng-app="myApp" ng-controller="customersCtrl">
 
     <!-- Main Conatiner -->
     <div class="container" ng-init="show=false;firsttime='true'">
-        <div class="w-25 mx-auto my-4 input-group">
-            <input ng-model="name" type="text" class="form-control" placeholder="City">
-            <button class="btn btn-outline-success" ng-click="update()" type="button">Search</button>
-        </div>
+        <form class="w-add mx-auto my-4 input-group row" autocomplete="on">
+            <input ng-model="name" type="text" class="form-control col-12 mb-2 mb-sm-0 col-sm-8" placeholder="City" auto>
+            <button class="btn btn-outline-success col-12  m-sm-0 col-sm-4" ng-click="update()" type="button">Search</button>
+        </form>
         <!-- Card -->
-        <div class="card rounded-3 mt-4 w-25 mx-auto"
+        <div class="card rounded-3 mt-4 w-add mx-auto"
             style="background:linear-gradient(90deg, #f2994a 0%, #f2c94c 100%);">
             <div class="row card-header m-0 align-items-center">
-                <h4 class="col text-center my-auto">Weather</h4><span ng-show="show" class="sideinfo col-6">{{name+" "+country}}</span>
+                <h4 class="col text-center my-auto">Weather</h4><span ng-show="show" class="sideinfo m-2 m-sm-0 col-sm-6 col-12">{{name+"
+                    "+country}}</span>
             </div>
             <!-- Card Body -->
             <div id="main" ng-show="show" class="card-body p-2">
@@ -61,22 +78,23 @@
                 </div>
 
                 <div class="card-footer d-flex align-items-center flex-wrap" style="transition: all 3s;">
-                    <span ng-repeat="i in recent" ng-click="display($index)" style="cursor: pointer;" class="m-1 badge rounded-pill bg-light text-dark">{{i}}</span>
+                    <span ng-repeat="i in recent" ng-click="display($index)" style="cursor: pointer;"
+                        class="m-1 badge rounded-pill bg-light text-dark">{{i}}</span>
                 </div>
-
             </div>
-
+            <p style="text-align: center; margin: 0;padding: 0;
+            color: red;
+            font-weight: 500;">{{error}}</p>
         </div>
     </div>
-    <script src="ignore.js"></script>
     <script>
-        console.log(API);
         var app = angular.module('myApp', ['ngAnimate']);
         app.controller('customersCtrl', function ($scope, $http) {
             $scope.recent = [];
             $scope.update = () => {
+                $scope.error = "";
                 var url = `http://api.openweathermap.org/data/2.5/weather?q=${$scope.name}&units=metric&appid=${API}`
-                 $http.get(url).then(function (response) {
+                $http.get(url).then(function (response) {
                     $scope.country = ", " + response.data.sys.country;
                     $scope.main = response.data.weather[0].main;
                     $scope.iconurl = 'http://openweathermap.org/img/wn/' + response.data.weather[0].icon + '.png';
@@ -86,13 +104,12 @@
                     $scope.visibility = response.data.visibility + 'm';
                     $scope.show = "true"
                     if ($scope.recent.indexOf($scope.name) !== -1) {
-                        console.log("already")
                     }
                     else {
                         $scope.recent.unshift($scope.name);
                     }
                 }, function (error) {
-                    $scope.country = error.data.message;
+                    $scope.error = error.data.message;
                 }
                 );
             }
