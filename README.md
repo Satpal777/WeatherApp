@@ -12,3 +12,9 @@ Vanilla Javascript
 
 AngularJS
 
+## Screenshots
+
+![Output](Screenshots/screenshot1.png)
+
+![Output](Screenshots/screenshot2.png)
+
